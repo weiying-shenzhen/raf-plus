@@ -5,7 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "pro": "NODE_ENV=production rollup -c",
+    "build": "npm run pro",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
