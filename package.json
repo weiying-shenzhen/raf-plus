@@ -1,0 +1,31 @@
+{
+  "name": "raf-plus",
+  "version": "0.0.1",
+  "description": "requestAnimationFrame management",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weiying-shenzhen/raf-plus.git"
+  },
+  "keywords": [
+    "requestAnimationFrame",
+    "management"
+  ],
+  "author": "joezheng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/weiying-shenzhen/raf-plus/issues"
+  },
+  "homepage": "https://github.com/weiying-shenzhen/raf-plus#readme",
+  "devDependencies": {
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-latest": "^6.24.1",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-watch": "^4.0.0"
+  }
+}
