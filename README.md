@@ -1,6 +1,6 @@
 # raf-plus
 
-raf-plus is used to manage `window.requestAnimationFrame`, which will only invokes the passed function at most once per animation frame.
+raf-plus is the same as `window.requestAnimationFrame` but better, which will only invokes the passed function at most once per animation frame.
 
 ## Reason
 
@@ -22,18 +22,19 @@ The scroll event may fire more than once within one frame, so the heavyAnimation
 The raf-plus help you manage requestAnimation's queue by ignoring the duplicate callback function in same animation frame. For comparison:
 
 ``` javascript
-const { raf } from 'raf-plus'
-const animation = () => console.log('animation')
+const { requestAnimationFrame } from 'raf-plus'
+const animationTwice = () => console.log('I will be invoked twice!')
+const animationOnce = () => console.log('Although call twice, I will be invoked once')
 
 // call same animation within one animation frame
 // lead to animation twice
-window.requestAnimationFrame(animation)
-window.requestAnimationFrame(animation)
+window.requestAnimationFrame(animationTwice)
+window.requestAnimationFrame(animationTwice)
 
 // call same animation within one animation frame
 // but only invoke once
-raf(animation)
-raf(animation)
+requestAnimationFrame(animationOnce)
+requestAnimationFrame(animationOnce)
 ```
 
 ## Install
@@ -52,7 +53,7 @@ The raf-plus only exports two methods
 
 ### requestAnimationFrame(callback)
 
-The same as [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame), but it will not return request id.
+The same as [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame). Be aware that raf-plus uses === operator to compare two callbacks, so passing anonymous function won't invoke the management!
 
 ``` javascript
 const { requestAnimationFrame } from 'raf-plus'
@@ -60,12 +61,19 @@ const { requestAnimationFrame } from 'raf-plus'
 const animation = timeStamp => {
     // animation
 }
+
+// animation will be invoked once within one frame
 requestAnimationFrame(animation)
+requestAnimationFrame(animation)
+
+// animation will be invoked twice cause the function are not equal
+requestAnimationFrame(timeStamp => { /* animation */})
+requestAnimationFrame(timeStamp => { /* animation */})
 ```
 
 ### cancelAnimationFrame(callback)
 
-The same as [cancelAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame), but it uses the function passed to requestAnimationFrame as parameter.
+The same as [cancelAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame).
 
 ``` javascript
 const { requestAnimationFrame, cancelAnimationFrame } from 'raf-plus'
@@ -73,9 +81,8 @@ const { requestAnimationFrame, cancelAnimationFrame } from 'raf-plus'
 const animation = timeStamp => {
     // animation
 }
-requestAnimationFrame(animation)
-// pass the function to cancel
-cancelAnimationFrame(animation)
+const requestId = requestAnimationFrame(animation)
+cancelAnimationFrame(requestId)
 ```
 
 ## Contributing

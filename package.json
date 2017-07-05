@@ -1,6 +1,6 @@
 {
   "name": "raf-plus",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "requestAnimationFrame management",
   "main": "dist/index.js",
   "scripts": {

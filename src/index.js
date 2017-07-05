@@ -1,3 +1,5 @@
+import { getKeyByValue } from './helper'
+
 const callbackMap = new Map()
 
 export const requestAnimationFrame = callback => {
@@ -7,11 +9,14 @@ export const requestAnimationFrame = callback => {
             callback(ts)
         })
         callbackMap.set(callback, requestId)
+        return requestId
+    }
+    else {
+        return callbackMap.get(callback)
     }
 }
 
-export const cancelAnimationFrame = callback => {
-    const requestId = callbackMap.get(callback)
-    window.cancelAnimationFrame(requestId)
-    callbackMap.delete(callback)
+export const cancelAnimationFrame = requestId => {
+    callbackMap.delete(getKeyByValue(callbackMap, requestId))
+    return window.cancelAnimationFrame(requestId)
 }
