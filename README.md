@@ -9,7 +9,7 @@ raf-plus is the same as `window.requestAnimationFrame` but better, which will on
 
 However, it does not manage the queue. For example:
 
-```
+```js
 const heavyAnimation = () => {
     // A animation function with heavy operations
 }
@@ -21,7 +21,7 @@ The scroll event may fire more than once within one frame, so the heavyAnimation
 
 The raf-plus help you manage requestAnimation's queue by ignoring the duplicate callback function in same animation frame. For comparison:
 
-```
+```js
 const { requestAnimationFrame } from 'raf-plus'
 const animationTwice = () => console.log('I will be invoked twice!')
 const animationOnce = () => console.log('Although call twice, I will be invoked once')
@@ -39,11 +39,11 @@ requestAnimationFrame(animationOnce)
 
 ## Install
 
-```
+```bash
 $ npm install --save raf-plus
 ```
 or
-```
+```bash
 $ yarn add raf-plus
 ```
 
@@ -55,7 +55,7 @@ The raf-plus only exports two methods
 
 The same as [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame). Be aware that raf-plus uses === operator to compare two callbacks, so passing anonymous function won't invoke the management!
 
-```
+```js
 const { requestAnimationFrame } from 'raf-plus'
 
 const animation = timeStamp => {
@@ -75,7 +75,7 @@ requestAnimationFrame(timeStamp => { /* animation */})
 
 The same as [cancelAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame).
 
-```
+```js
 const { requestAnimationFrame, cancelAnimationFrame } from 'raf-plus'
 
 const animation = timeStamp => {
