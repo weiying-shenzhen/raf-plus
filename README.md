@@ -1,6 +1,8 @@
 # raf-plus
 
-raf-plus is the same as `window.requestAnimationFrame` but better, which will only invokes the passed function at most once per animation frame.
+raf-plus is `window.requestAnimationFrame` with queue management, which will only invokes the passed function at most once per animation frame.
+
+可观看[中文文档](https://github.com/weiying-shenzhen/raf-plus/blob/master/README_zh.md)
 
 ## Reason
 
@@ -14,12 +16,12 @@ const heavyAnimation = () => {
     // A animation function with heavy operations
 }
 
-document.addEventListener('scroll', e => requestAnimation(heavyAnimation), false)
+document.addEventListener('scroll', e => requestAnimationFrame(heavyAnimation), false)
 ```
 
-The scroll event may fire more than once within one frame, so the heavyAnimation function may be called more than once before next repaint, but repetitively call heavyAnimation at one animation frame is unnecessary and waste of resources!!!
+The scroll event may fire more than once within one frame, so the `heavyAnimation` function may be called more than once before next repaint, but repetitively call `heavyAnimation` at one animation frame is unnecessary and waste of resources!!!
 
-The raf-plus help you manage requestAnimation's queue by ignoring the duplicate callback function in same animation frame. For comparison:
+The raf-plus help you manage requestAnimationFrame's queue by ignoring the duplicate callback function in same animation frame. For comparison:
 
 ```js
 const { requestAnimationFrame } from 'raf-plus'
@@ -49,7 +51,7 @@ $ yarn add raf-plus
 
 ## Usage
 
-The raf-plus only exports two methods
+The raf-plus provides two methods `requestAnimationFrame` and `cancelAnimationFrame`. They keep the same API as `window.requestAnimationFrame` and `window.cancelAnimationFrame`. Therefore, It is costless to switch from native's to raf-plus's.
 
 ### `requestAnimationFrame(callback)`
 
@@ -71,7 +73,7 @@ requestAnimationFrame(timeStamp => { /* animation */})
 requestAnimationFrame(timeStamp => { /* animation */})
 ```
 
-### `cancelAnimationFrame(callback)`
+### `cancelAnimationFrame(requestID)`
 
 The same as [cancelAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame).
 
