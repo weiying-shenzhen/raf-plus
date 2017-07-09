@@ -2,7 +2,7 @@ import { getKeyByValue } from './helper'
 
 const callbackMap = new Map()
 
-export const requestAnimationFrame = callback => {
+const requestAnimationFrame = callback => {
     if (!callbackMap.has(callback)) {
         const requestId = window.requestAnimationFrame(ts => {
             callbackMap.delete(callback)
@@ -16,7 +16,12 @@ export const requestAnimationFrame = callback => {
     }
 }
 
-export const cancelAnimationFrame = requestId => {
+const cancelAnimationFrame = requestId => {
     callbackMap.delete(getKeyByValue(callbackMap, requestId))
     return window.cancelAnimationFrame(requestId)
+}
+
+export default {
+    requestAnimationFrame,
+    cancelAnimationFrame,
 }
