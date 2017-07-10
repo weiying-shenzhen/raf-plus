@@ -1,23 +1,28 @@
-import { getKeyByValue } from './helper'
+const callbackList = []
 
-const callbackMap = new Map()
-
-const requestAnimationFrame = callback => {
-    if (!callbackMap.has(callback)) {
-        const requestId = window.requestAnimationFrame(ts => {
-            callbackMap.delete(callback)
-            callback(ts)
-        })
-        callbackMap.set(callback, requestId)
-        return requestId
+function requestAnimationFrame(callback) {
+    const entry = callbackList.find(item => item.callback === callback)
+    if (entry) {
+        return entry.requestId
     }
     else {
-        return callbackMap.get(callback)
+        const requestId = window.requestAnimationFrame(ts => {
+            const index = callbackList.findIndex(item => item.callback === callback)
+            callbackList.splice(index, 1)
+            callback(ts)
+        })
+        callbackList.push({
+            callback,
+            requestId,
+        })
+        return requestId
     }
 }
-
-const cancelAnimationFrame = requestId => {
-    callbackMap.delete(getKeyByValue(callbackMap, requestId))
+function cancelAnimationFrame(requestId) {
+    const index = callbackList.findIndex(item => item.requestId === requestId)
+    if (index !== -1) {
+        callbackList.splice(index, 1)
+    }
     return window.cancelAnimationFrame(requestId)
 }
 

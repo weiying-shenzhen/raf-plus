@@ -29,7 +29,7 @@ export default {
                     },
                 ],
             ],
-            plugins: ['transform-runtime', 'external-helpers'],
+            plugins: ['external-helpers'],
         }),
         (isProduction && uglify()),
     ],
