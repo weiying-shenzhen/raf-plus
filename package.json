@@ -1,14 +1,14 @@
 {
   "name": "raf-plus",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "better requestAnimationFrame",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ava --verbose",
     "dev": "rollup -c -w",
     "pro": "NODE_ENV=production rollup -c",
     "build": "npm run pro",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build && npm run test"
   },
   "repository": {
     "type": "git",
@@ -26,10 +26,12 @@
   },
   "homepage": "https://github.com/weiying-shenzhen/raf-plus#readme",
   "devDependencies": {
+    "ava": "^0.20.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-latest": "^6.24.1",
+    "raf": "^3.3.2",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-hypothetical": "^1.2.1",

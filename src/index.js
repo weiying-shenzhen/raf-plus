@@ -1,12 +1,12 @@
 const callbackList = []
 
-function requestAnimationFrame(callback) {
+function raf(callback) {
     const entry = callbackList.find(item => item.callback === callback)
     if (entry) {
         return entry.requestId
     }
     else {
-        const requestId = window.requestAnimationFrame(ts => {
+        const requestId = requestAnimationFrame(ts => {
             const index = callbackList.findIndex(item => item.callback === callback)
             callbackList.splice(index, 1)
             callback(ts)
@@ -18,15 +18,15 @@ function requestAnimationFrame(callback) {
         return requestId
     }
 }
-function cancelAnimationFrame(requestId) {
+function caf(requestId) {
     const index = callbackList.findIndex(item => item.requestId === requestId)
     if (index !== -1) {
         callbackList.splice(index, 1)
     }
-    return window.cancelAnimationFrame(requestId)
+    cancelAnimationFrame(requestId)
 }
 
 export default {
-    requestAnimationFrame,
-    cancelAnimationFrame,
+    requestAnimationFrame: raf,
+    cancelAnimationFrame: caf,
 }
