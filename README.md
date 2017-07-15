@@ -1,5 +1,7 @@
 # raf-plus
 
+[![Build Status](https://travis-ci.org/weiying-shenzhen/raf-plus.svg?branch=master)](https://travis-ci.org/weiying-shenzhen/raf-plus)
+
 raf-plus is `window.requestAnimationFrame` with queue management, which will only invokes the passed function at most once per animation frame.
 
 可观看[中文文档](https://github.com/weiying-shenzhen/raf-plus/blob/master/README_zh.md)
@@ -88,6 +90,7 @@ cancelAnimationFrame(requestId)
 ```
 
 ## Contributing
+
 - ⇄ Pull requests and ★ Stars are always welcome.
 - For bugs and feature requests, please create an issue.
 

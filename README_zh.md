@@ -1,5 +1,7 @@
 # raf-plus
 
+[![Build Status](https://travis-ci.org/weiying-shenzhen/raf-plus.svg?branch=master)](https://travis-ci.org/weiying-shenzhen/raf-plus)
+
 raf-plus 是有管理队列功能的 `window.requestAnimationFrame`，他保证在同一帧内最多只会执行一次相同的函数。
 
 ## 原因
