@@ -6,25 +6,25 @@ raf-plus 是有管理队列功能的 `window.requestAnimationFrame`，他保证�
 
 ## 原因
 
-> `window.requestAnimationFrame` 方法告诉浏览器您希望执行动画，并请求浏览器在下一次重绘之前调用指定的函数更新动画。  
-> -- [MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame#Specification)
+> Also note that multiple calls to requestAnimationFrame with the same callback (before callbacks are invoked and the list is cleared) will result in multiple entries being in the list with that same callback, and thus will result in that callback being invoked more than once for the animation frame.  
+> — [w3c](https://www.w3.org/TR/animation-timing/#dom-windowanimationtiming-requestanimationframe)
 
-但是 `window.requestAnimationFrame` 并不会管理队列。例如：
+即在回调被执行前，多次调用带有同一回调函数的 requestAnimationFrame，会导致回调在同一帧中执行多次。例如：
 
 ```js
-const heavyAnimation = () => {
-    // A animation function with heavy operations
+const animation = () => {
+    // A animation function
 }
 
-document.addEventListener('scroll', e => requestAnimationFrame(heavyAnimation), false)
+document.addEventListener('scroll', e => requestAnimationFrame(animation), false)
 ```
 
-scroll 事件可能在一帧内触发多次，这导致 `heavyAnimation` 函数会在下一次重绘前被执行多次。但是，在同一帧内重复的调用 `heavyAnimation` 是多余的，而且浪费计算资源！！！
+scroll 事件可能在一帧内触发多次，这导致 `animation` 函数会在下一次重绘前被执行多次。但是，在同一帧内重复的调用 `animation` 是多余的，而且浪费计算资源！！！
 
 raf-plus 将会帮助你管理 `window.requestAnimationFrame` 的队列。他会忽视同一帧的重复函数。例如：
 
 ```js
-const { requestAnimationFrame } from 'raf-plus'
+import { requestAnimationFrame } from 'raf-plus'
 const animationTwice = () => console.log('I will be invoked twice!')
 const animationOnce = () => console.log('Although call twice, I will be invoked once')
 

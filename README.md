@@ -8,35 +8,33 @@ raf-plus is `window.requestAnimationFrame` with queue management, which will onl
 
 ## Reason
 
-> The `window.requestAnimationFrame` method tells the browser that you wish to perform an animation and requests that the browser call a specified function to update an animation before the next repaint.  
-> -- [MDN](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame)
+> Also note that multiple calls to requestAnimationFrame with the same callback (before callbacks are invoked and the list is cleared) will result in multiple entries being in the list with that same callback, and thus will result in that callback being invoked more than once for the animation frame.
+> -- [w3c](https://www.w3.org/TR/animation-timing/#dom-windowanimationtiming-requestanimationframe)
 
-However, it does not manage the queue. For example:
+For example:
 
 ```js
-const heavyAnimation = () => {
-    // A animation function with heavy operations
+const animation = () => {
+    // A animation function
 }
 
-document.addEventListener('scroll', e => requestAnimationFrame(heavyAnimation), false)
+document.addEventListener('scroll', e => requestAnimationFrame(animation), false)
 ```
 
-The scroll event may fire more than once within one frame, so the `heavyAnimation` function may be called more than once before next repaint, but repetitively call `heavyAnimation` at one animation frame is unnecessary and waste of resources!!!
+The scroll event may fire more than once within one frame, so the `animation` function may be called more than once before next repaint, but repetitively call `animation` at one animation frame is unnecessary and waste of resources!!!
 
 The raf-plus help you manage requestAnimationFrame's queue by ignoring the duplicate callback function in same animation frame. For comparison:
 
 ```js
-const { requestAnimationFrame } from 'raf-plus'
+import { requestAnimationFrame } from 'raf-plus'
 const animationTwice = () => console.log('I will be invoked twice!')
 const animationOnce = () => console.log('Although call twice, I will be invoked once')
 
-// call same animation within one animation frame
-// lead to animation twice
+// call same animation within one animation frame lead to animation twice
 window.requestAnimationFrame(animationTwice)
 window.requestAnimationFrame(animationTwice)
 
-// call same animation within one animation frame
-// but only invoke once
+// call same animation within one animation frame but only invoke once
 requestAnimationFrame(animationOnce)
 requestAnimationFrame(animationOnce)
 ```
