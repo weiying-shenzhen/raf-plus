@@ -1,5 +1,5 @@
 import test from 'ava'
-import{ requestAnimationFrame, cancelAnimationFrame } from './dist/index.js'
+import { requestAnimationFrame, cancelAnimationFrame } from './src/index.js'
 import raf from 'raf'
 raf.polyfill()
 
@@ -18,7 +18,7 @@ test.cb('only invoke once', t => {
 })
 
 test.cb('return same id for duplicate callback', t => {
-    const animation = () => {}
+    const animation = () => { }
 
     const id1 = requestAnimationFrame(animation)
     const id2 = requestAnimationFrame(animation)

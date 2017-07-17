@@ -1,13 +1,30 @@
 const callbackList = []
 
+const find = (list, predicate) => {
+    for (let index = 0; index < list.length; index++) {
+        if (predicate(list[index], index, list)) {
+            return list[index]
+        }
+    }
+    return null
+}
+const findIndex = (list, predicate) => {
+    for (let index = 0; index < list.length; index++) {
+        if (predicate(list[index], index, list)) {
+            return index
+        }
+    }
+    return -1
+}
+
 function raf(callback) {
-    const entry = callbackList.find(item => item.callback === callback)
+    const entry = find(callbackList, item => item.callback === callback)
     if (entry) {
         return entry.requestId
     }
     else {
         const requestId = requestAnimationFrame(ts => {
-            const index = callbackList.findIndex(item => item.callback === callback)
+            const index = findIndex(callbackList, item => item.callback === callback)
             callbackList.splice(index, 1)
             callback(ts)
         })
@@ -19,14 +36,14 @@ function raf(callback) {
     }
 }
 function caf(requestId) {
-    const index = callbackList.findIndex(item => item.requestId === requestId)
-    if (index !== -1) {
+    const index = findIndex(callbackList, item => item.requestId === requestId)
+    if (~index) {
         callbackList.splice(index, 1)
     }
     cancelAnimationFrame(requestId)
 }
 
-export default {
-    requestAnimationFrame: raf,
-    cancelAnimationFrame: caf,
+export {
+    raf as requestAnimationFrame,
+    caf as cancelAnimationFrame,
 }
